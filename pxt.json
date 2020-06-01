@@ -1,0 +1,19 @@
+{
+    "name": "pxt-turtlelogo",
+    "description": "",
+    "dependencies": {
+        "device": "*"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "supportedTargets": [
+        "arcade"
+    ],
+    "preferredEditor": "blocksprj"
+}
