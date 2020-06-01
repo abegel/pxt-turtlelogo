@@ -1,3 +1,16 @@
+
+enum TravelDirection {
+    //% block="ahead of me"
+    Ahead = 2,
+    //% block="behind me"
+    Behind = 3,
+    //% block="on my left"
+    Left = 0,
+    //% block="on my right"
+    Right = 1
+    
+}
+
 namespace sprites {
 
     //% block="$sprite=variables_get(mySprite) heading"
@@ -61,5 +74,65 @@ namespace sprites {
         sprites.left(sprite, 0 - delta_heading);
     }
 
+
+}
+
+namespace scene {
+
+    //% block="is $sprite=variables_get(mySprite) hitting wall $td"
+    //% group="Collisions"
+    //% td.defl=TravelDetection.Ahead
+    export function isWallinDirectionOfTravel(sprite: Sprite, td: TravelDirection) {
+        let cd: CollisionDirection = CollisionDirection.Top;
+        let h: number = sprites.heading(sprite);
+        switch(td) {
+            case TravelDirection.Ahead:
+                if ((h >= 0 && h < 45) || (h >= 315 && h < 360)) {
+                    cd = CollisionDirection.Top;
+                } else if (h >= 45 && h < 135) {
+                    cd = CollisionDirection.Right;
+                } else if (h >= 135 && h < 225) {
+                    cd = CollisionDirection.Bottom;
+                } else if (h >= 225 && h < 315) {
+                    cd = CollisionDirection.Left;
+                } 
+                break;
+            case TravelDirection.Behind:
+                if ((h >= 0 && h < 45) || (h >= 315 && h < 360)) {
+                    cd = CollisionDirection.Bottom;
+                } else if (h >= 45 && h < 135) {
+                    cd = CollisionDirection.Left;
+                } else if (h >= 135 && h < 225) {
+                    cd = CollisionDirection.Top;
+                } else if (h >= 225 && h < 315) {
+                    cd = CollisionDirection.Right;
+                } 
+                break;
+            case TravelDirection.Left:
+                if ((h >= 0 && h < 45) || (h >= 315 && h < 360)) {
+                    cd = CollisionDirection.Left;
+                } else if (h >= 45 && h < 135) {
+                    cd = CollisionDirection.Top;
+                } else if (h >= 135 && h < 225) {
+                    cd = CollisionDirection.Right;
+                } else if (h >= 225 && h < 315) {
+                    cd = CollisionDirection.Bottom;
+                } 
+                break;
+            case TravelDirection.Right:
+                if ((h >= 0 && h < 45) || (h >= 315 && h < 360)) {
+                    cd = CollisionDirection.Right;
+                } else if (h >= 45 && h < 135) {
+                    cd = CollisionDirection.Bottom;
+                } else if (h >= 135 && h < 225) {
+                    cd = CollisionDirection.Left;
+                } else if (h >= 225 && h < 315) {
+                    cd = CollisionDirection.Top;
+                } 
+                break;
+
+        }
+        return sprite.isHittingTile(cd);
+    }
 
 }
