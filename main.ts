@@ -1,4 +1,3 @@
-
 enum TravelDirection {
     //% block="ahead of me"
     Ahead = 2,
@@ -10,7 +9,6 @@ enum TravelDirection {
     Right = 1
     
 }
-
 namespace sprites {
 
     //% block="$sprite=variables_get(mySprite) heading"
@@ -20,7 +18,7 @@ namespace sprites {
         let r: number = Math.atan2(0-sprite.vy(), sprite.vx());
         let d: number = r * 180.0 / Math.PI;
         let d2: number = 450 - d;
-        return d2;
+        return d2 % 360;
     }
 
     //% block="$sprite=variables_get(mySprite) speed"
@@ -35,14 +33,14 @@ namespace sprites {
     //% group="Turtle Logo"
     //% weight=99
     export function setheading(sprite: Sprite, heading: number) {
-        let d: number = heading % 360;
-        let d2: number = 450 - d;
-        let r: number = d2 * Math.PI / 180.0;
+        let e: number = heading % 360;
+        let d22: number = 450 - e;
+        let s: number = d22 * Math.PI / 180.0;
         let speed: number = sprites.speed(sprite);
         // if speed is too low, heading won't get set
         speed = Math.max(speed, 0.004);
-        let vx: number = speed * Math.cos(r);
-        let vy: number = 0.0 - (speed * Math.sin(r));
+        let vx: number = speed * Math.cos(s);
+        let vy: number = 0.0 - (speed * Math.sin(s));
         sprite.setVelocity(vx, vy);
     }
 
@@ -50,10 +48,10 @@ namespace sprites {
     //% group="Turtle Logo"
     //% weight=97
     export function setspeed(sprite: Sprite, speed: number) {
-        let r: number = Math.atan2(sprite.vy(), sprite.vx());
-        let vx: number = speed * Math.cos(r);
-        let vy: number = speed * Math.sin(r);
-        sprite.setVelocity(vx, vy);
+        let t: number = Math.atan2(sprite.vy(), sprite.vx());
+        let vx2: number = speed * Math.cos(t);
+        let vy2: number = speed * Math.sin(t);
+        sprite.setVelocity(vx2, vy2);
     }
 
     //% block="left $sprite=variables_get(mySprite) by $delta_heading degrees"
@@ -76,57 +74,56 @@ namespace sprites {
 
 
 }
-
 namespace scene {
 
     //% block="is $sprite=variables_get(mySprite) hitting wall $td"
     //% group="Collisions"
     //% td.defl=TravelDetection.Ahead
     export function isWallinDirectionOfTravel(sprite: Sprite, td: TravelDirection) {
-        let cd: CollisionDirection = CollisionDirection.Top;
-        let h: number = sprites.heading(sprite);
+        let cd: CollisionDirection;
+        let i: number = sprites.heading(sprite);
         switch(td) {
             case TravelDirection.Ahead:
-                if ((h >= 0 && h < 45) || (h >= 315 && h < 360)) {
+                if ((i >= 0 && i < 45) || (i >= 315 && i < 360)) {
                     cd = CollisionDirection.Top;
-                } else if (h >= 45 && h < 135) {
+                } else if (i >= 45 && i < 135) {
                     cd = CollisionDirection.Right;
-                } else if (h >= 135 && h < 225) {
+                } else if (i >= 135 && i < 225) {
                     cd = CollisionDirection.Bottom;
-                } else if (h >= 225 && h < 315) {
+                } else if (i >= 225 && i < 315) {
                     cd = CollisionDirection.Left;
                 } 
                 break;
             case TravelDirection.Behind:
-                if ((h >= 0 && h < 45) || (h >= 315 && h < 360)) {
+                if ((i >= 0 && i < 45) || (i >= 315 && i < 360)) {
                     cd = CollisionDirection.Bottom;
-                } else if (h >= 45 && h < 135) {
+                } else if (i >= 45 && i < 135) {
                     cd = CollisionDirection.Left;
-                } else if (h >= 135 && h < 225) {
+                } else if (i >= 135 && i < 225) {
                     cd = CollisionDirection.Top;
-                } else if (h >= 225 && h < 315) {
+                } else if (i >= 225 && i < 315) {
                     cd = CollisionDirection.Right;
                 } 
                 break;
             case TravelDirection.Left:
-                if ((h >= 0 && h < 45) || (h >= 315 && h < 360)) {
+                if ((i >= 0 && i < 45) || (i >= 315 && i < 360)) {
                     cd = CollisionDirection.Left;
-                } else if (h >= 45 && h < 135) {
+                } else if (i >= 45 && i < 135) {
                     cd = CollisionDirection.Top;
-                } else if (h >= 135 && h < 225) {
+                } else if (i >= 135 && i < 225) {
                     cd = CollisionDirection.Right;
-                } else if (h >= 225 && h < 315) {
+                } else if (i >= 225 && i < 315) {
                     cd = CollisionDirection.Bottom;
                 } 
                 break;
             case TravelDirection.Right:
-                if ((h >= 0 && h < 45) || (h >= 315 && h < 360)) {
+                if ((i >= 0 && i < 45) || (i >= 315 && i < 360)) {
                     cd = CollisionDirection.Right;
-                } else if (h >= 45 && h < 135) {
+                } else if (i >= 45 && i < 135) {
                     cd = CollisionDirection.Bottom;
-                } else if (h >= 135 && h < 225) {
+                } else if (i >= 135 && i < 225) {
                     cd = CollisionDirection.Left;
-                } else if (h >= 225 && h < 315) {
+                } else if (i >= 225 && i < 315) {
                     cd = CollisionDirection.Top;
                 } 
                 break;
