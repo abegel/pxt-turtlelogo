@@ -109,59 +109,136 @@ namespace sprites {
 }
 namespace scene {
 
-    //% block="is $sprite=variables_get(mySprite) hitting wall $td"
+    //% block="$sprite=variables_get(mySprite) tile location"
     //% group="Collisions"
-    //% td.defl=TravelDetection.Ahead
-    export function isWallinDirectionOfTravel(sprite: Sprite, td: TravelDirection) {
-        let cd: CollisionDirection;
+    export function getTileLocationOfSprite(sprite: Sprite) {
+        const scene = game.currentScene();
+        if (!scene.tileMap) return new tiles.Location(0, 0, scene.tileMap);
+        const scale = scene.tileMap.scale;
+        
+        const hbox = sprite._hitbox;
+
+        const left = Fx.toIntShifted(hbox.left, scale);
+        const right = Fx.toIntShifted(hbox.right, scale);
+        const top = Fx.toIntShifted(hbox.top, scale);
+        const bottom = Fx.toIntShifted(hbox.bottom, scale);
+
+        return new tiles.Location(left, top, scene.tileMap);
+    }
+
+
+    //% block="coordinate $n tiles $td of sprite $sprite=variables_get(mySprite)"
+    //% group="Collisions"
+    export function getCoordinateNTilesAwayFromTile(n: number, td: TravelDirection, sprite: Sprite) {
+        const scene = game.currentScene();
+        if (!scene.tileMap) return new tiles.Location(0, 0, scene.tileMap);
+
+        if (n < 0) return new tiles.Location(0, 0, scene.tileMap);
+        let round_n = Math.round(n);
+
         let i: number = sprites.heading(sprite);
-        switch(td) {
+        let loc: tiles.Location = getTileLocationOfSprite(sprite);
+        let x: number = loc.x;
+        let y: number = loc.y;
+
+        switch (td) {
             case TravelDirection.Ahead:
                 if ((i >= 0 && i < 45) || (i >= 315 && i < 360)) {
-                    cd = CollisionDirection.Top;
+                    y = y - round_n;
+                    if (y < 0) y = 0;  
                 } else if (i >= 45 && i < 135) {
-                    cd = CollisionDirection.Right;
+                    x = x + round_n;
+                    if (x > scene.tileMap.areaWidth()) x = scene.tileMap.areaWidth();
                 } else if (i >= 135 && i < 225) {
-                    cd = CollisionDirection.Bottom;
+                    y = y + round_n;
+                    if (y > scene.tileMap.areaHeight()) y = scene.tileMap.areaHeight();
                 } else if (i >= 225 && i < 315) {
-                    cd = CollisionDirection.Left;
-                } 
+                    x = x - round_n;
+                    if (x < 0) x = 0;
+                }
                 break;
             case TravelDirection.Behind:
                 if ((i >= 0 && i < 45) || (i >= 315 && i < 360)) {
-                    cd = CollisionDirection.Bottom;
+                    y = y + round_n;
+                    if (y > scene.tileMap.areaHeight()) y = scene.tileMap.areaHeight();
                 } else if (i >= 45 && i < 135) {
-                    cd = CollisionDirection.Left;
+                    x = x - round_n;
+                    if (x < 0) x = 0;
                 } else if (i >= 135 && i < 225) {
-                    cd = CollisionDirection.Top;
+                    y = y - round_n;
+                    if (y < 0) y = 0;
                 } else if (i >= 225 && i < 315) {
-                    cd = CollisionDirection.Right;
-                } 
+                    x = x + round_n;
+                    if (x > scene.tileMap.areaWidth()) x = scene.tileMap.areaWidth();
+                }
                 break;
             case TravelDirection.Left:
                 if ((i >= 0 && i < 45) || (i >= 315 && i < 360)) {
-                    cd = CollisionDirection.Left;
+                    x = x - round_n;
+                    if (x < 0) x = 0;
                 } else if (i >= 45 && i < 135) {
-                    cd = CollisionDirection.Top;
+                    y = y - round_n;
+                    if (y < 0) y = 0;
                 } else if (i >= 135 && i < 225) {
-                    cd = CollisionDirection.Right;
+                    x = x + round_n;
+                    if (x > scene.tileMap.areaWidth()) x = scene.tileMap.areaWidth();
                 } else if (i >= 225 && i < 315) {
-                    cd = CollisionDirection.Bottom;
-                } 
+                    y = y + round_n;
+                    if (y > scene.tileMap.areaHeight()) y = scene.tileMap.areaHeight();
+                }
                 break;
             case TravelDirection.Right:
                 if ((i >= 0 && i < 45) || (i >= 315 && i < 360)) {
-                    cd = CollisionDirection.Right;
+                    x = x + round_n;
+                    if (x > scene.tileMap.areaWidth()) x = scene.tileMap.areaWidth();
                 } else if (i >= 45 && i < 135) {
-                    cd = CollisionDirection.Bottom;
+                    y = y + round_n;
+                    if (y > scene.tileMap.areaHeight()) y = scene.tileMap.areaHeight();
                 } else if (i >= 135 && i < 225) {
-                    cd = CollisionDirection.Left;
+                    x = x - round_n;
+                    if (x < 0) x = 0;
                 } else if (i >= 225 && i < 315) {
-                    cd = CollisionDirection.Top;
-                } 
+                    y = y - round_n;
+                    if (y < 0) y = 0;
+                }
                 break;
 
         }
+        return new tiles.Location(loc.x, y, scene.tileMap);
+    }
+
+    //% block="$loc is a wall?"
+    //% tile.shadow=tileset_tile_picker
+    //% tile.decompileIndirectFixedInstances=true
+    export function isTileAWallAt(loc: tiles.Location) {
+        const scene = game.currentScene();
+
+        if (!loc || !scene.tileMap) return false;
+
+        const scale = scene.tileMap.scale;
+        let scaledLoc: tiles.Location = new tiles.Location(loc.x >> scale, loc.y >> scale, scene.tileMap);
+
+        return scene.tileMap.isObstacle(loc.x >> scale, loc.y >> scale);
+    }
+
+    //% block="$loc is tile $tile?"
+    //% tile.shadow=tileset_tile_picker
+    //% tile.decompileIndirectFixedInstances=true
+    export function isTileAShapeAt(loc: tiles.Location, tile: Image) {
+        const scene = game.currentScene();
+
+        if (!loc || !scene.tileMap) return false;
+
+        const scale = scene.tileMap.scale;
+        let scaledLoc: tiles.Location = new tiles.Location(loc.x >> scale, loc.y >> scale, scene.tileMap);
+        
+        let i: Image = tiles.getTileImage(scaledLoc);
+        return (i == tile);
+    }
+
+    function isWallinDirectionOfTravel(sprite: Sprite, td: TravelDirection) {
+        let cd: CollisionDirection;
+        
         return sprite.isHittingTile(cd);
     }
 
