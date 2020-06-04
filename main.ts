@@ -199,11 +199,11 @@ namespace scene {
                 x = x - xd;
                 y = y - yd;
                 break;
-            case TravelDirection.Left:
+            case TravelDirection.Right:
                 x = x + yd;
                 y = y - xd;
                 break;
-            case TravelDirection.Right:
+            case TravelDirection.Left:
                 x = x - yd;
                 y = y + xd;
                 break;
