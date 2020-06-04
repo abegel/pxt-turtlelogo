@@ -1,11 +1,11 @@
 enum TravelDirection {
-    //% block="ahead of me"
+    //% block="ahead of"
     Ahead = 2,
-    //% block="behind me"
+    //% block="behind"
     Behind = 3,
-    //% block="on my left"
+    //% block="to the left of "
     Left = 0,
-    //% block="on my right"
+    //% block="to the right of"
     Right = 1
     
 }
@@ -110,7 +110,7 @@ namespace sprites {
 namespace scene {
 
     //% block="$sprite=variables_get(mySprite) tile location"
-    //% group="Collisions"
+    //% group="Tiles"
     export function getTileLocationOfSprite(sprite: Sprite) {
         const scene = game.currentScene();
         if (!scene.tileMap) return new tiles.Location(0, 0, scene.tileMap);
@@ -126,21 +126,50 @@ namespace scene {
         return new tiles.Location(left, top, scene.tileMap);
     }
 
+    //% block="$loc col"
+    //% loc.shadow=mapgettile
+    //% group="Tiles"
+    export function getTileColCoordinate(loc: tiles.Location) {
+        const scene = game.currentScene();
+        if (!scene.tileMap) return 0;
+        const scale = scene.tileMap.scale;
+        return loc.x >> scale;
+    }
 
-    //% block="coordinate $n tiles $td of sprite $sprite=variables_get(mySprite)"
-    //% group="Collisions"
+    //% block="$loc row"
+    //% loc.shadow=mapgettile
+    //% group="Tiles"
+    export function getTileRowCoordinate(loc: tiles.Location) {
+        const scene = game.currentScene();
+        if (!scene.tileMap) return 0;
+        const scale = scene.tileMap.scale;
+        return loc.y >> scale;
+    }
+
+
+
+    //% block="tile location $n tiles $td sprite $sprite=variables_get(mySprite)"
+    //% n.defl=1
+    //% group="Tiles"
     export function getCoordinateNTilesAwayFromTile(n: number, td: TravelDirection, sprite: Sprite) {
         const scene = game.currentScene();
-        if (!scene.tileMap) return new tiles.Location(0, 0, scene.tileMap);
+        if (!scene.tileMap || n < 0) return new tiles.Location(0, 0, scene.tileMap);
 
-        if (n < 0) return new tiles.Location(0, 0, scene.tileMap);
         let round_n = Math.round(n);
+        
+        let loc: tiles.Location = getTileLocationOfSprite(sprite);
+        const scale = scene.tileMap.scale;
+        let x: number = loc.x >> scale;
+        let y: number = loc.y >> scale;
+        let width: number = scene.tileMap.areaWidth() >> scale;
+        let height: number = scene.tileMap.areaHeight() >> scale;
+
+        //console.log("loc.x = " + loc.x);
+        //console.log("loc.y = " + loc.y);
+        //console.log("x >> scale = " + x);
+        //console.log("y >> scale = " + y);
 
         let i: number = sprites.heading(sprite);
-        let loc: tiles.Location = getTileLocationOfSprite(sprite);
-        let x: number = loc.x;
-        let y: number = loc.y;
-
         switch (td) {
             case TravelDirection.Ahead:
                 if ((i >= 0 && i < 45) || (i >= 315 && i < 360)) {
@@ -148,10 +177,10 @@ namespace scene {
                     if (y < 0) y = 0;  
                 } else if (i >= 45 && i < 135) {
                     x = x + round_n;
-                    if (x > scene.tileMap.areaWidth()) x = scene.tileMap.areaWidth();
+                    if (x >= width) x = width-1;
                 } else if (i >= 135 && i < 225) {
                     y = y + round_n;
-                    if (y > scene.tileMap.areaHeight()) y = scene.tileMap.areaHeight();
+                    if (y >= height) y = height - 1;
                 } else if (i >= 225 && i < 315) {
                     x = x - round_n;
                     if (x < 0) x = 0;
@@ -160,7 +189,7 @@ namespace scene {
             case TravelDirection.Behind:
                 if ((i >= 0 && i < 45) || (i >= 315 && i < 360)) {
                     y = y + round_n;
-                    if (y > scene.tileMap.areaHeight()) y = scene.tileMap.areaHeight();
+                    if (y >= height) y = height - 1;
                 } else if (i >= 45 && i < 135) {
                     x = x - round_n;
                     if (x < 0) x = 0;
@@ -169,7 +198,7 @@ namespace scene {
                     if (y < 0) y = 0;
                 } else if (i >= 225 && i < 315) {
                     x = x + round_n;
-                    if (x > scene.tileMap.areaWidth()) x = scene.tileMap.areaWidth();
+                    if (x >= width) x = width - 1;
                 }
                 break;
             case TravelDirection.Left:
@@ -181,19 +210,19 @@ namespace scene {
                     if (y < 0) y = 0;
                 } else if (i >= 135 && i < 225) {
                     x = x + round_n;
-                    if (x > scene.tileMap.areaWidth()) x = scene.tileMap.areaWidth();
+                    if (x >= width) x = width - 1;
                 } else if (i >= 225 && i < 315) {
                     y = y + round_n;
-                    if (y > scene.tileMap.areaHeight()) y = scene.tileMap.areaHeight();
+                    if (y >= height) y = height - 1;
                 }
                 break;
             case TravelDirection.Right:
                 if ((i >= 0 && i < 45) || (i >= 315 && i < 360)) {
                     x = x + round_n;
-                    if (x > scene.tileMap.areaWidth()) x = scene.tileMap.areaWidth();
+                    if (x >= width) x = width - 1;
                 } else if (i >= 45 && i < 135) {
                     y = y + round_n;
-                    if (y > scene.tileMap.areaHeight()) y = scene.tileMap.areaHeight();
+                    if (y >= height) y = height - 1;
                 } else if (i >= 135 && i < 225) {
                     x = x - round_n;
                     if (x < 0) x = 0;
@@ -204,26 +233,31 @@ namespace scene {
                 break;
 
         }
-        return new tiles.Location(loc.x, y, scene.tileMap);
+        //console.log("new x = " + x);
+        //console.log("new y = " + y);
+        //console.log("new x << scale = " + (x << scale));
+        //console.log("new y << scale = " + (y << scale));
+
+
+        return new tiles.Location(x, y, scene.tileMap);
     }
 
-    //% block="$loc is a wall?"
-    //% tile.shadow=tileset_tile_picker
-    //% tile.decompileIndirectFixedInstances=true
+    //% block="tile at $loc is wall?"
+    //% loc.shadow=mapgettile
+    //% group="Tiles"
     export function isTileAWallAt(loc: tiles.Location) {
         const scene = game.currentScene();
-
         if (!loc || !scene.tileMap) return false;
 
-        const scale = scene.tileMap.scale;
-        let scaledLoc: tiles.Location = new tiles.Location(loc.x >> scale, loc.y >> scale, scene.tileMap);
-
+        const scale = scene.tileMap.scale;   
         return scene.tileMap.isObstacle(loc.x >> scale, loc.y >> scale);
     }
 
-    //% block="$loc is tile $tile?"
+    //% block="tile at $loc is $tile?"
     //% tile.shadow=tileset_tile_picker
     //% tile.decompileIndirectFixedInstances=true
+    //% loc.shadow=mapgettile
+    //% group="Tiles"
     export function isTileAShapeAt(loc: tiles.Location, tile: Image) {
         const scene = game.currentScene();
 
@@ -236,10 +270,5 @@ namespace scene {
         return (i == tile);
     }
 
-    function isWallinDirectionOfTravel(sprite: Sprite, td: TravelDirection) {
-        let cd: CollisionDirection;
-        
-        return sprite.isHittingTile(cd);
-    }
 
 }
