@@ -123,14 +123,19 @@ namespace sprites {
         return magnitude;
     }
 
+    
+
+}
+
+namespace math {
     //% block="is $pred"
     //% group="Heading"
     //% weight=97
     export function booleanToNumber(pred: boolean) {
         return (pred) ? 1 : 0
     }
-
 }
+
 namespace scene {
 
     //% block="$sprite=variables_get(mySprite) tile location"
