@@ -85,7 +85,12 @@ namespace sprites {
         const d = sprite.data();
         if (sprite.vy() != 0 || sprite.vx() != 0) {
             let heading: number = atan2(0 - sprite.vy(), sprite.vx());
+            let magnitude: number = speed(sprite);
+            let ydelta: number = (0 - sprite.vy()) / magnitude;
+            let xdelta: number = (sprite.vx() / magnitude);
             d["heading"] = heading % 360;
+            d["xdelta"] = xdelta;
+            d["ydelta"] = ydelta;
         }
     }
 
@@ -96,6 +101,18 @@ namespace sprites {
         const d = sprite.data();
         let heading: number = d["heading"];
         return heading;
+    }
+
+    export function xdelta(sprite: Sprite) : number {
+        const d = sprite.data();
+        let xd: number = d["xdelta"];
+        return xd;
+    }
+
+    export function ydelta(sprite: Sprite) : number {
+        const d = sprite.data();
+        let yd: number = d["ydelta"];
+        return yd;
     }
 
     //% block="$sprite=variables_get(mySprite) speed"
@@ -156,7 +173,7 @@ namespace scene {
         if (!scene.tileMap || n < 0) return new tiles.Location(0, 0, scene.tileMap);
 
         let round_n = Math.round(n);
-        
+               
         let loc: tiles.Location = getTileLocationOfSprite(sprite);
         const scale = scene.tileMap.scale;
         let x: number = loc.x >> scale;
@@ -169,77 +186,40 @@ namespace scene {
         //console.log("x >> scale = " + x);
         //console.log("y >> scale = " + y);
 
+        let xd = sprites.xdelta(sprite) * round_n;
+        let yd = sprites.ydelta(sprite) * round_n;
+
         let i: number = sprites.heading(sprite);
-        switch (td) {
+        switch(td) {
             case TravelDirection.Ahead:
-                if ((i >= 0 && i < 45) || (i >= 315 && i < 360)) {
-                    y = y - round_n;
-                    if (y < 0) y = 0;  
-                } else if (i >= 45 && i < 135) {
-                    x = x + round_n;
-                    if (x >= width) x = width-1;
-                } else if (i >= 135 && i < 225) {
-                    y = y + round_n;
-                    if (y >= height) y = height - 1;
-                } else if (i >= 225 && i < 315) {
-                    x = x - round_n;
-                    if (x < 0) x = 0;
-                }
+                x = x + xd;
+                y = y + yd;
                 break;
             case TravelDirection.Behind:
-                if ((i >= 0 && i < 45) || (i >= 315 && i < 360)) {
-                    y = y + round_n;
-                    if (y >= height) y = height - 1;
-                } else if (i >= 45 && i < 135) {
-                    x = x - round_n;
-                    if (x < 0) x = 0;
-                } else if (i >= 135 && i < 225) {
-                    y = y - round_n;
-                    if (y < 0) y = 0;
-                } else if (i >= 225 && i < 315) {
-                    x = x + round_n;
-                    if (x >= width) x = width - 1;
-                }
+                x = x - xd;
+                y = y - yd;
                 break;
             case TravelDirection.Left:
-                if ((i >= 0 && i < 45) || (i >= 315 && i < 360)) {
-                    x = x - round_n;
-                    if (x < 0) x = 0;
-                } else if (i >= 45 && i < 135) {
-                    y = y - round_n;
-                    if (y < 0) y = 0;
-                } else if (i >= 135 && i < 225) {
-                    x = x + round_n;
-                    if (x >= width) x = width - 1;
-                } else if (i >= 225 && i < 315) {
-                    y = y + round_n;
-                    if (y >= height) y = height - 1;
-                }
+                x = x + yd;
+                y = y - xd;
                 break;
             case TravelDirection.Right:
-                if ((i >= 0 && i < 45) || (i >= 315 && i < 360)) {
-                    x = x + round_n;
-                    if (x >= width) x = width - 1;
-                } else if (i >= 45 && i < 135) {
-                    y = y + round_n;
-                    if (y >= height) y = height - 1;
-                } else if (i >= 135 && i < 225) {
-                    x = x - round_n;
-                    if (x < 0) x = 0;
-                } else if (i >= 225 && i < 315) {
-                    y = y - round_n;
-                    if (y < 0) y = 0;
-                }
+                x = x - yd;
+                y = y + xd;
                 break;
+        } 
 
-        }
-        //console.log("new x = " + x);
-        //console.log("new y = " + y);
-        //console.log("new x << scale = " + (x << scale));
-        //console.log("new y << scale = " + (y << scale));
-
+        x = Math.round(x);
+        y = Math.round(y);
+        
+        if (x < 0) x = 0;
+        if (x >= width) x = width - 1;
+        if (y < 0) y = 0;
+        if (y >= height) y = height - 1;
 
         return new tiles.Location(x, y, scene.tileMap);
+
+        
     }
 
     //% block="tile at $loc is wall?"
