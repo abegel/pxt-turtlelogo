@@ -123,6 +123,13 @@ namespace sprites {
         return magnitude;
     }
 
+    //% block="is $pred"
+    //% group="Heading"
+    //% weight=97
+    export function booleanToNumber(pred: boolean) {
+        return (pred) ? 1 : 0
+    }
+
 }
 namespace scene {
 
@@ -193,11 +200,11 @@ namespace scene {
         switch(td) {
             case TravelDirection.Ahead:
                 x = x + xd;
-                y = y + yd;
+                y = y - yd;
                 break;
             case TravelDirection.Behind:
                 x = x - xd;
-                y = y - yd;
+                y = y + yd;
                 break;
             case TravelDirection.Right:
                 x = x + yd;
