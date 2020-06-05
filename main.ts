@@ -127,9 +127,8 @@ namespace sprites {
 
 }
 
-namespace math {
+namespace Math {
     //% block="is $pred"
-    //% group="Heading"
     //% weight=97
     export function booleanToNumber(pred: boolean) {
         return (pred) ? 1 : 0
