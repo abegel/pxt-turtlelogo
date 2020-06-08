@@ -133,6 +133,19 @@ namespace Math {
     export function booleanToNumber(pred: boolean) {
         return (pred) ? 1 : 0
     }
+
+}
+
+namespace arrays {
+
+    //% block="choose random element from $list=variables_get(list)"
+    export function choose(list: any[]) {
+        if (!list || list.length == 0) {
+            return 0;
+        }
+        return list[Math.randomRange(0, list.length - 1)];
+    }
+
 }
 
 namespace scene {
