@@ -188,9 +188,9 @@ namespace scene {
        
 
         const left = ((sprite._x as any as number) >> 8) / (1 << scale); //Fx.toIntShifted(hbox.left, scale);
-        const right = (((sprite._x as any as number) >> 8) + 1) / (1 << scale); // Fx.toIntShifted(hbox.right, scale);
+        const right = (((sprite._x as any as number) >> 8) + (1 << scale)) / (1 << scale); // Fx.toIntShifted(hbox.right, scale);
         const top = ((sprite._y as any as number) >> 8) / (1 << scale); //Fx.toIntShifted(hbox.top, scale);
-        const bottom = (((sprite._y as any as number) >> 8) + 1) / (1 << scale); // Fx.toIntShifted(hbox.bottom, scale);
+        const bottom = (((sprite._y as any as number) >> 8) + (1 << scale)) / (1 << scale); // Fx.toIntShifted(hbox.bottom, scale);
 
         console.logValue("left divide", left);
         console.logValue("top divide", top);
