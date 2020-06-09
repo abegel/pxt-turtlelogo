@@ -178,16 +178,17 @@ namespace scene {
         console.logValue("hbox.right", hbox.right as any as number);
         console.logValue("hbox.bottom", hbox.bottom as any as number);
 
-        console.logValue("hbox.left", Fx.toIntShifted(hbox.left, scale));
-        console.logValue("hbox.top", Fx.toIntShifted(hbox.top, scale));
-        console.logValue("hbox.right", Fx.toIntShifted(hbox.right, scale));
-        console.logValue("hbox.bottom", Fx.toIntShifted(hbox.bottom, scale));
+        
 
+        const left = ((hbox.left as any as number) >> 8) / (2 << scale); //Fx.toIntShifted(hbox.left, scale);
+        const right = ((hbox.right as any as number) >> 8) / (2 << scale); // Fx.toIntShifted(hbox.right, scale);
+        const top = ((hbox.top as any as number) >> 8) / (2 << scale); //Fx.toIntShifted(hbox.top, scale);
+        const bottom = ((hbox.bottom as any as number) >> 8) / (2 << scale); // Fx.toIntShifted(hbox.bottom, scale);
 
-        const left = Fx.toIntShifted(hbox.left, scale);
-        const right = Fx.toIntShifted(hbox.right, scale);
-        const top = Fx.toIntShifted(hbox.top, scale);
-        const bottom = Fx.toIntShifted(hbox.bottom, scale);
+        console.logValue("hbox.left", left);
+        console.logValue("hbox.top", top);
+        console.logValue("hbox.right", right);
+        console.logValue("hbox.bottom", bottom);
 
         if (left == right && top == bottom) {
             return new tiles.Location(left, top, scene.tileMap);
