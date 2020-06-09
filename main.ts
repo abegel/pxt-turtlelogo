@@ -184,10 +184,15 @@ namespace scene {
         const top = ((hbox.top as any as number) >> 8) / (1 << scale); //Fx.toIntShifted(hbox.top, scale);
         const bottom = ((hbox.bottom as any as number) >> 8) / (1 << scale); // Fx.toIntShifted(hbox.bottom, scale);
 
-        console.logValue("hbox.left", left);
-        console.logValue("hbox.top", top);
-        console.logValue("hbox.right", right);
-        console.logValue("hbox.bottom", bottom);
+        console.logValue("hbox.left divide", left);
+        console.logValue("hbox.top divide", top);
+        console.logValue("hbox.right divide", right);
+        console.logValue("hbox.bottom divide", bottom);
+
+        console.logValue("hbox.left shifted", Fx.toIntShifted(hbox.left, scale));
+        console.logValue("hbox.top shifted", Fx.toIntShifted(hbox.top, scale));
+        console.logValue("hbox.right shifted", Fx.toIntShifted(hbox.right, scale));
+        console.logValue("hbox.bottom shifted", Fx.toIntShifted(hbox.bottom, scale));
 
         if (left == right && top == bottom) {
             return new tiles.Location(left, top, scene.tileMap);
