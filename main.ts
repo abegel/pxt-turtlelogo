@@ -290,6 +290,8 @@ namespace scene {
         console.logValue("scale", scale);
         console.logValue("isWallLocX", loc.x);
         console.logValue("isWallScaledX", loc.x >> scale);
+        console.logValue("isWallLocY", loc.y);
+        console.logValue("isWallScaledY", loc.y >> scale);
 
         let pointX: number = (loc.x >> scale);
         let pointY: number = (loc.y >> scale);
