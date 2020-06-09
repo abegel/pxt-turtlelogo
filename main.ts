@@ -244,8 +244,8 @@ namespace scene {
             yd = ydOriginal * round_n;
         }
 
-        console.logValue("xdOriginal", xd);
-        console.logValue("ydOriginal", yd);
+        console.logValue("xdOriginal", xdOriginal);
+        console.logValue("ydOriginal", ydOriginal);
         console.logValue("new xd", xd);
         console.logValue("new yd", yd);
 
