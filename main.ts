@@ -134,6 +134,16 @@ namespace Math {
         return (pred) ? 1 : 0
     }
 
+    //% block="$a mod $b"
+    //% weight=97
+    export function mod(a: number, b: number) {
+        let val: number = a % b;
+        if (val < 0) {
+            val += b;
+        }
+        return val;
+    }
+
 }
 
 namespace arrays {
