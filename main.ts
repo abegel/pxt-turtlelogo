@@ -175,16 +175,16 @@ namespace scene {
 
         const hbox = sprite._hitbox;
 
-        console.logValue("sprite x", sprite._x as any as number);
-        console.logValue("sprite y", sprite._y as any as number);
-        console.logValue("sprite x divided", ((sprite._x as any as number) >> 8) / (1 << scale));
-        console.logValue("sprite y divided", ((sprite._y as any as number) >> 8) / (1 << scale));
+        //console.logValue("sprite x", sprite._x as any as number);
+        //console.logValue("sprite y", sprite._y as any as number);
+        //console.logValue("sprite x divided", ((sprite._x as any as number) >> 8) / (1 << scale));
+        //console.logValue("sprite y divided", ((sprite._y as any as number) >> 8) / (1 << scale));
 
 
-        console.logValue("hbox.left", hbox.left as any as number);
-        console.logValue("hbox.top", hbox.top as any as number);
-        console.logValue("hbox.right", hbox.right as any as number);
-        console.logValue("hbox.bottom", hbox.bottom as any as number);
+        //console.logValue("hbox.left", hbox.left as any as number);
+        //console.logValue("hbox.top", hbox.top as any as number);
+        //console.logValue("hbox.right", hbox.right as any as number);
+        //console.logValue("hbox.bottom", hbox.bottom as any as number);
        
 
         const left = ((sprite._x as any as number) >> 8) / (1 << scale); //Fx.toIntShifted(hbox.left, scale);
@@ -192,10 +192,10 @@ namespace scene {
         const top = ((sprite._y as any as number) >> 8) / (1 << scale); //Fx.toIntShifted(hbox.top, scale);
         const bottom = ((((sprite._y as any as number) >> 8) + (1 << scale) - 1)) / (1 << scale); // Fx.toIntShifted(hbox.bottom, scale);
 
-        console.logValue("left divide", left);
-        console.logValue("top divide", top);
-        console.logValue("right divide", right);
-        console.logValue("bottom divide", bottom);
+        //console.logValue("left divide", left);
+        //console.logValue("top divide", top);
+        //console.logValue("right divide", right);
+        //console.logValue("bottom divide", bottom);
 
         const hleft = ((hbox.left as any as number) >> 8) / (1 << scale); //Fx.toIntShifted(hbox.left, scale);
         const hright = ((hbox.right as any as number) >> 8) / (1 << scale); // Fx.toIntShifted(hbox.right, scale);
@@ -203,10 +203,10 @@ namespace scene {
         const hbottom = ((hbox.bottom as any as number) >> 8) / (1 << scale); // Fx.toIntShifted(hbox.bottom, scale);
 
 
-        console.logValue("hbox.left divide", hleft);
-        console.logValue("hbox.top divide", htop);
-        console.logValue("hbox.right divide", hright);
-        console.logValue("hbox.bottom divide", hbottom);
+        //console.logValue("hbox.left divide", hleft);
+        //console.logValue("hbox.top divide", htop);
+        //console.logValue("hbox.right divide", hright);
+        //console.logValue("hbox.bottom divide", hbottom);
 
         //console.logValue("hbox.left shifted", Fx.toIntShifted(hbox.left, scale));
         //console.logValue("hbox.top shifted", Fx.toIntShifted(hbox.top, scale));
@@ -217,7 +217,7 @@ namespace scene {
             return new tiles.Location(left, top, scene.tileMap);
         } else {
             let h: number = sprites.heading(sprite);
-            console.logValue("heading", h);
+            //console.logValue("heading", h);
             switch(h % 90) {
                 case 0:
                     return new tiles.Location(left, bottom, scene.tileMap);
