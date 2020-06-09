@@ -226,6 +226,8 @@ namespace scene {
         let xd: number = round_n; // default to n steps
         let yd: number = round_n; // default to n steps
 
+        console.logValue("xd", xd);
+
         let xdOriginal: number = sprites.xdelta(sprite);
         let ydOriginal: number = sprites.ydelta(sprite);
         
