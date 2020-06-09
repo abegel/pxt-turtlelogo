@@ -227,6 +227,7 @@ namespace scene {
         let yd: number = round_n; // default to n steps
 
         console.logValue("xd", xd);
+        console.logValue("yd", yd);
 
         let xdOriginal: number = sprites.xdelta(sprite);
         let ydOriginal: number = sprites.ydelta(sprite);
@@ -238,6 +239,11 @@ namespace scene {
         if (ydOriginal > 0) {
             yd = ydOriginal * round_n;
         }
+
+        console.logValue("xdOriginal", xd);
+        console.logValue("ydOriginal", yd);
+        console.logValue("new xd", xd);
+        console.logValue("new yd", yd);
 
         let i: number = sprites.heading(sprite);
         switch(td) {
@@ -259,6 +265,9 @@ namespace scene {
                 break;
         } 
 
+        console.logValue("x", x);
+        console.logValue("y", y);
+
         x = Math.round(x);
         y = Math.round(y);
         
@@ -266,6 +275,9 @@ namespace scene {
         if (x >= width) x = width - 1;
         if (y < 0) y = 0;
         if (y >= height) y = height - 1;
+
+        console.logValue("final x", x);
+        console.logValue("final y", y);
 
         return new tiles.Location(x, y, scene.tileMap);
 
