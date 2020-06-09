@@ -178,6 +178,12 @@ namespace scene {
         console.logValue("hbox.right", hbox.right as any as number);
         console.logValue("hbox.bottom", hbox.bottom as any as number);
 
+        console.logValue("hbox.left", Fx.toIntShifted(hbox.left, scale));
+        console.logValue("hbox.top", Fx.toIntShifted(hbox.top, scale));
+        console.logValue("hbox.right", Fx.toIntShifted(hbox.right, scale));
+        console.logValue("hbox.bottom", Fx.toIntShifted(hbox.bottom, scale));
+
+
         const left = Fx.toIntShifted(hbox.left, scale);
         //const right = Fx.toIntShifted(Fx.add(hbox.left, Fx8(2 << scale)), scale);
         const top = Fx.toIntShifted(hbox.top, scale);
