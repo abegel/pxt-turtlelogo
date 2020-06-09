@@ -83,7 +83,7 @@ namespace sprites {
     //% weight=99
     export function updateheading(sprite: Sprite) {
         const d = sprite.data();
-        if (sprite.vy() != 0 && sprite.vx() != 0) {
+        if (sprite.vy() != 0 || sprite.vx() != 0) {
             let my_heading: number = atan2(0 - sprite.vy(), sprite.vx());
             let magnitude: number = speed(sprite);
             let ydelta: number = (0 - sprite.vy()) / magnitude;
