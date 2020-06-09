@@ -173,6 +173,11 @@ namespace scene {
         
         const hbox = sprite._hitbox;
 
+        console.logValue("hbox.left", hbox.left as any as number);
+        console.logValue("hbox.top", hbox.top as any as number);
+        console.logValue("hbox.right", hbox.right as any as number);
+        console.logValue("hbox.bottom", hbox.bottom as any as number);
+
         const left = Fx.toIntShifted(hbox.left, scale);
         //const right = Fx.toIntShifted(Fx.add(hbox.left, Fx8(2 << scale)), scale);
         const top = Fx.toIntShifted(hbox.top, scale);
