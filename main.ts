@@ -164,7 +164,10 @@ namespace scene {
         const top = Fx.toIntShifted(hbox.top, scale);
         const bottom = Fx.toIntShifted(hbox.bottom, scale);
 
-        return new tiles.Location(left, top, scene.tileMap);
+        let pointX = (sprite.vx >= 0) ? left : right;
+        let pointY = (sprite.vy >= 0) ? top : bottom;
+
+        return new tiles.Location(pointX, pointY, scene.tileMap);
     }
 
     //% block="$loc col"
