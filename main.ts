@@ -171,7 +171,14 @@ namespace scene {
         if (!scene.tileMap) return new tiles.Location(0, 0, scene.tileMap);
         const scale = scene.tileMap.scale;
         
+
         const hbox = sprite._hitbox;
+
+        console.logValue("sprite x", sprite._x as any as number);
+        console.logValue("sprite y", sprite._y as any as number);
+        console.logValue("sprite x divided", ((sprite._x as any as number) >> 8) / (1 << scale));
+        console.logValue("sprite y divided", ((sprite._y as any as number) >> 8) / (1 << scale));
+
 
         console.logValue("hbox.left", hbox.left as any as number);
         console.logValue("hbox.top", hbox.top as any as number);
