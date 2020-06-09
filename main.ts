@@ -91,9 +91,9 @@ namespace sprites {
             d["heading"] = my_heading % 360;
             d["xdelta"] = xdelta;
             d["ydelta"] = ydelta;
-            console.logValue("updateheading heading", my_heading % 360);
-            console.logValue("updateheading xdelta", xdelta);
-            console.logValue("updateheading ydelta", ydelta);
+            //console.logValue("updateheading heading", my_heading % 360);
+            //console.logValue("updateheading xdelta", xdelta);
+            //console.logValue("updateheading ydelta", ydelta);
 
         }
     }
@@ -230,14 +230,14 @@ namespace scene {
         let xdOriginal: number = sprites.xdelta(sprite);
         let ydOriginal: number = sprites.ydelta(sprite);
 
-        console.logValue("xdOriginal", xdOriginal);
-        console.logValue("ydOriginal", ydOriginal);
+        //console.logValue("xdOriginal", xdOriginal);
+        //console.logValue("ydOriginal", ydOriginal);
 
         let xd: number = xdOriginal * round_n;   
         let yd: number = ydOriginal * round_n;
 
-        console.logValue("xd", xd);
-        console.logValue("yd", yd);
+        //console.logValue("xd", xd);
+        //console.logValue("yd", yd);
 
         let i: number = sprites.heading(sprite);
         switch(td) {
@@ -259,8 +259,8 @@ namespace scene {
                 break;
         } 
 
-        console.logValue("x", x);
-        console.logValue("y", y);
+        //console.logValue("x", x);
+        //console.logValue("y", y);
 
         x = Math.round(x);
         y = Math.round(y);
@@ -270,8 +270,8 @@ namespace scene {
         if (y < 0) y = 0;
         if (y >= height) y = height - 1;
 
-        console.logValue("final x", x);
-        console.logValue("final y", y);
+        //console.logValue("final x", x);
+        //console.logValue("final y", y);
 
         return new tiles.Location(x, y, scene.tileMap);
 
