@@ -223,8 +223,19 @@ namespace scene {
         //console.log("x >> scale = " + x);
         //console.log("y >> scale = " + y);
 
-        let xd = sprites.xdelta(sprite) * round_n;
-        let yd = sprites.ydelta(sprite) * round_n;
+        let xd: number = round_n; // default to n steps
+        let yd: number = round_n; // default to n steps
+
+        let xdOriginal: number = sprites.xdelta(sprite);
+        let ydOriginal: number = sprites.ydelta(sprite);
+        
+        if (xdOriginal > 0) {
+            xd = xdOriginal * round_n;
+        }
+        
+        if (ydOriginal > 0) {
+            yd = ydOriginal * round_n;
+        }
 
         let i: number = sprites.heading(sprite);
         switch(td) {
