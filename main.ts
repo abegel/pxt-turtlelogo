@@ -174,9 +174,9 @@ namespace scene {
         const hbox = sprite._hitbox;
 
         const left = Fx.toIntShifted(hbox.left, scale);
-        const right = Fx.toIntShifted(Fx.add(hbox.left, Fx8(2 << scale)), scale);
+        const right = Fx.toIntShifted(Fx.add(hbox.left, Fx.sub(Fx8(2 << scale), Fx.oneFx8)), scale);
         const top = Fx.toIntShifted(hbox.top, scale);
-        const bottom = Fx.toIntShifted(Fx.add(hbox.top, Fx8(2 << scale)), scale);
+        const bottom = Fx.toIntShifted(Fx.add(hbox.top, Fx.sub(Fx8(2 << scale), Fx.oneFx8)), scale);
 
         let pointX = (sprite.vx >= 0) ? left : right;
         let pointY = (sprite.vy >= 0) ? top : bottom;
@@ -286,12 +286,6 @@ namespace scene {
         const scene = game.currentScene();
         if (!scene.tileMap) return new tiles.Location(0, 0, scene.tileMap);
         const scale = scene.tileMap.scale;
-
-        console.logValue("scale", scale);
-        console.logValue("isWallLocX", loc.x);
-        console.logValue("isWallScaledX", loc.x >> scale);
-        console.logValue("isWallLocY", loc.y);
-        console.logValue("isWallScaledY", loc.y >> scale);
 
         let pointX: number = (loc.x >> scale);
         let pointY: number = (loc.y >> scale);
