@@ -283,10 +283,19 @@ namespace scene {
     //% group="Tiles"
     export function isTileAWallAt(loc: tiles.Location) {
         const scene = game.currentScene();
-        if (!loc || !scene.tileMap) return false;
+        if (!scene.tileMap) return new tiles.Location(0, 0, scene.tileMap);
+        const scale = scene.tileMap.scale;
 
-        const scale = scene.tileMap.scale;   
-        return scene.tileMap.isObstacle(loc.x >> scale, loc.y >> scale);
+        console.logValue("scale", scale);
+        console.logValue("isWallLocX", loc.x);
+        console.logValue("isWallScaledX", loc.x >> scale);
+
+        let pointX: number = (loc.x >> scale) + (2 << (scale - 1));
+        let pointY: number = (loc.y >> scale) + (2 << (scale - 1));
+
+        console.logValue("isWallScaledXRounded", pointX);
+
+        return scene.tileMap.isObstacle(pointX, pointY);
     }
 
     //% block="tile at $loc is $tile?"
