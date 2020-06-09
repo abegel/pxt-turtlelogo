@@ -278,6 +278,7 @@ namespace scene {
         
     }
 
+
     //% block="tile at $loc is wall?"
     //% loc.shadow=mapgettile
     //% group="Tiles"
@@ -290,10 +291,8 @@ namespace scene {
         console.logValue("isWallLocX", loc.x);
         console.logValue("isWallScaledX", loc.x >> scale);
 
-        let pointX: number = (loc.x >> scale) + (2 << (scale - 1));
-        let pointY: number = (loc.y >> scale) + (2 << (scale - 1));
-
-        console.logValue("isWallScaledXRounded", pointX);
+        let pointX: number = (loc.x >> scale);
+        let pointY: number = (loc.y >> scale);
 
         return scene.tileMap.isObstacle(pointX, pointY);
     }
