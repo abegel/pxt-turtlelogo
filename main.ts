@@ -174,14 +174,14 @@ namespace scene {
         const hbox = sprite._hitbox;
 
         const left = Fx.toIntShifted(hbox.left, scale);
-        const right = Fx.toIntShifted(Fx.add(hbox.left, Fx8(2 << scale)), scale);
+        //const right = Fx.toIntShifted(Fx.add(hbox.left, Fx8(2 << scale)), scale);
         const top = Fx.toIntShifted(hbox.top, scale);
-        const bottom = Fx.toIntShifted(Fx.add(hbox.top, Fx8(2 << scale)), scale);
+        //const bottom = Fx.toIntShifted(Fx.add(hbox.top, Fx8(2 << scale)), scale);
 
-        let pointX = (sprite.vx >= 0) ? left : right;
-        let pointY = (sprite.vy >= 0) ? top : bottom;
+        //let pointX = (sprite.vx >= 0) ? left : right;
+        //let pointY = (sprite.vy >= 0) ? top : bottom;
 
-        return new tiles.Location(pointX, pointY, scene.tileMap);
+        return new tiles.Location(left, top, scene.tileMap);
     }
 
     //% block="$loc col"
