@@ -83,14 +83,18 @@ namespace sprites {
     //% weight=99
     export function updateheading(sprite: Sprite) {
         const d = sprite.data();
-        if (sprite.vy() != 0 || sprite.vx() != 0) {
-            let heading: number = atan2(0 - sprite.vy(), sprite.vx());
+        if (sprite.vy() != 0 && sprite.vx() != 0) {
+            let my_heading: number = atan2(0 - sprite.vy(), sprite.vx());
             let magnitude: number = speed(sprite);
             let ydelta: number = (0 - sprite.vy()) / magnitude;
             let xdelta: number = (sprite.vx() / magnitude);
-            d["heading"] = heading % 360;
+            d["heading"] = my_heading % 360;
             d["xdelta"] = xdelta;
             d["ydelta"] = ydelta;
+            console.logValue("updateheading heading", my_heading % 360);
+            console.logValue("updateheading xdelta", xdelta);
+            console.logValue("updateheading ydelta", ydelta);
+
         }
     }
 
