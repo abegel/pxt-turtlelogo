@@ -251,11 +251,11 @@ namespace scene {
                 break;
             case TravelDirection.Right:
                 x = x + yd;
-                y = y - xd;
+                y = y + xd;
                 break;
             case TravelDirection.Left:
                 x = x - yd;
-                y = y + xd;
+                y = y - xd;
                 break;
         } 
 
