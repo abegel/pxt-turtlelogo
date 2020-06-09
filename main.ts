@@ -185,14 +185,28 @@ namespace scene {
 
 
         const left = Fx.toIntShifted(hbox.left, scale);
-        //const right = Fx.toIntShifted(Fx.add(hbox.left, Fx8(2 << scale)), scale);
+        const right = Fx.toIntShifted(hbox.right, scale);
         const top = Fx.toIntShifted(hbox.top, scale);
-        //const bottom = Fx.toIntShifted(Fx.add(hbox.top, Fx8(2 << scale)), scale);
+        const bottom = Fx.toIntShifted(hbox.bottom, scale);
 
-        //let pointX = (sprite.vx >= 0) ? left : right;
-        //let pointY = (sprite.vy >= 0) ? top : bottom;
-
-        return new tiles.Location(left, top, scene.tileMap);
+        if (left == right && top == bottom) {
+            return new tiles.Location(left, top, scene.tileMap);
+        } else {
+            let h: number = sprites.heading(sprite);
+            console.logValue("heading", h);
+            switch(h % 90) {
+                case 0:
+                    return new tiles.Location(left, bottom, scene.tileMap);
+                case 1:
+                    return new tiles.Location(left, top, scene.tileMap);
+                case 2:
+                    return new tiles.Location(right, top, scene.tileMap);
+                case 3:
+                    return new tiles.Location(right, bottom, scene.tileMap);
+            }
+            return new tiles.Location(left, top, scene.tileMap);
+        } 
+ 
     }
 
     //% block="$loc col"
