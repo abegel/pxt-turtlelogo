@@ -177,9 +177,9 @@ namespace scene {
 
     //% block="$sprite=variables_get(mySprite) wholly within a tile?"
     //% group="Tiles"
-    export function spriteContainedWithinTile(sprite: Sprite) {
+    export function spriteContainedWithinTile(sprite: Sprite): boolean {
         const scene = game.currentScene();
-        if (!scene.tileMap) return new tiles.Location(0, 0, scene.tileMap);
+        if (!scene.tileMap) return true;
         const scale = scene.tileMap.scale;
         
         const left: number = sprite.left();
