@@ -185,11 +185,10 @@ namespace scene {
         const left: number = sprite.left();
         const right: number = sprite.right() - 1;
 
-        console.logValue("left", sprite.left());
-        console.logValue("right", sprite.right() - 1);
-
-        console.logValue("left scaled", sprite.left() >> scale);
-        console.logValue("right scaled", (sprite.right() - 1) >> scale);
+        //console.logValue("left", sprite.left());
+        //console.logValue("right", sprite.right() - 1);
+        //console.logValue("left scaled", sprite.left() >> scale);
+        //console.logValue("right scaled", (sprite.right() - 1) >> scale);
 
         if ((left >> scale) != (right >> scale)) {
             return false;
@@ -197,11 +196,11 @@ namespace scene {
         const top: number = sprite.top();
         const bottom: number = sprite.bottom() - 1;
 
-        console.logValue("top", sprite.top());
-        console.logValue("bottom", sprite.bottom() - 1);
+        //console.logValue("top", sprite.top());
+        //console.logValue("bottom", sprite.bottom() - 1);
 
-        console.logValue("top scaled", sprite.top() >> scale);
-        console.logValue("bottom scaled", (sprite.bottom() - 1) >> scale);
+        //console.logValue("top scaled", sprite.top() >> scale);
+        //console.logValue("bottom scaled", (sprite.bottom() - 1) >> scale);
 
         if ((top >> scale) != (bottom >> scale)) {
             return false;
