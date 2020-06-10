@@ -170,15 +170,30 @@ namespace scene {
         const scene = game.currentScene();
         if (!scene.tileMap) return new tiles.Location(0, 0, scene.tileMap);
         const scale = scene.tileMap.scale;
+
+        return new tiles.Location(sprite.x() >> scale, sprite.y() >> scale, scene.tileMap);
+ 
+    }
+
+    //% block="$sprite=variables_get(mySprite) wholly within a tile?"
+    //% group="Tiles"
+    export function spriteContainedWithinTile(sprite: Sprite) {
+        const scene = game.currentScene();
+        if (!scene.tileMap) return new tiles.Location(0, 0, scene.tileMap);
+        const scale = scene.tileMap.scale;
         
         const left: number = sprite.left();
+        const right: number = sprite.right();
+        if ((left >> scale) != (right >> scale)) {
+            return false;
+        }
         const top: number = sprite.top();
-
-        const width: number = 1 << scale;
-        const height: number = 1 << scale;
-
-        return new tiles.Location(left >> scale, top >> scale, scene.tileMap);
- 
+        const bottom: number = sprite.bottom();
+        if ((top >> scale) != (bottom >> scale)) {
+            return false;
+        }
+        return true;
+        
     }
 
     //% block="$loc col"
