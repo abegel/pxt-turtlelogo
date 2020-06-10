@@ -183,7 +183,7 @@ namespace scene {
         const scale = scene.tileMap.scale;
         
         const left: number = sprite.left();
-        const right: number = sprite.right();
+        const right: number = sprite.right() - 1;
 
         console.logValue("left", sprite.left());
         console.logValue("right", sprite.right() - 1);
