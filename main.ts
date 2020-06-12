@@ -131,6 +131,24 @@ namespace sprites {
 
 }
 
+namespace game {
+
+    /**
+     * Update the position and velocities of sprites
+     * @param body code to execute
+     */
+    //% group="Gameplay"
+    //% block="on game update with heading"
+    //% blockAllowMultiple=1
+    export function onGameUpdateWithHeading(a: () => void): void {
+        game.currentScene().allSprites.filter(s => s instanceof Sprite).map((sprite, index) => {
+            sprites.updateheading(sprite as Sprite)
+        });   
+        if (!a) return;
+        game.eventContext().registerFrameHandler(scene.UPDATE_PRIORITY - 1, a);
+    }
+}
+
 namespace Math {
     //% block="is $pred"
     //% weight=97
