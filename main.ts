@@ -98,6 +98,11 @@ namespace sprites {
         }
     }
 
+    export function updateAllHeadings() {
+        game.currentScene().allSprites.filter(s => s instanceof Sprite).map((sprite, index) => 
+            updateheading(sprite as Sprite))
+    }
+
     //% block="$sprite=variables_get(mySprite) heading"
     //% group="Heading"
     //% weight=100
@@ -133,6 +138,10 @@ namespace sprites {
 
 namespace game {
 
+    function foo() : void {
+        console.log("foo");
+    }
+
     /**
      * Update the position and velocities of sprites
      * @param body code to execute
@@ -141,11 +150,10 @@ namespace game {
     //% block="on game update with heading"
     //% blockAllowMultiple=1
     export function onGameUpdateWithHeading(a: () => void): void {
-        game.currentScene().allSprites.filter(s => s instanceof Sprite).map((sprite, index) => {
-            sprites.updateheading(sprite as Sprite)
-        });   
         if (!a) return;
-        game.eventContext().registerFrameHandler(scene.UPDATE_PRIORITY - 1, a);
+        sprites.updateAllHeadings();
+        let new_a: () => { foo(); a(); };
+        game.eventContext().registerFrameHandler(scene.UPDATE_PRIORITY - 1, new_a);
     }
 }
 
