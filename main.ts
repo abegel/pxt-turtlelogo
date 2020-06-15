@@ -81,20 +81,20 @@ namespace sprites {
     //% block="record $sprite=variables_get(mySprite) heading"
     //% group="Heading"
     //% weight=99
-    export function updateheading(sprite: Sprite) {
-        const d = sprite.data();
+    export function updateheading(sprite: Sprite) { 
         if (sprite.vy() != 0 || sprite.vx() != 0) {
             let my_heading: number = atan2(0 - sprite.vy(), sprite.vx());
             let magnitude: number = speed(sprite);
             let ydelta: number = (0 - sprite.vy()) / magnitude;
             let xdelta: number = (sprite.vx() / magnitude);
+            
+            const d = sprite.data();
             d["heading"] = my_heading % 360;
             d["xdelta"] = xdelta;
             d["ydelta"] = ydelta;
             //console.logValue("updateheading heading", my_heading % 360);
             //console.logValue("updateheading xdelta", xdelta);
             //console.logValue("updateheading ydelta", ydelta);
-
         }
     }
 
@@ -108,18 +108,21 @@ namespace sprites {
     //% weight=100
     export function heading(sprite: Sprite) : number {
         const d = sprite.data();
+        if (d["heading"] == undefined) { updateheading(sprite) }
         let heading: number = d["heading"];
         return heading;
     }
 
     export function xdelta(sprite: Sprite) : number {
         const d = sprite.data();
+        if (d["xdelta"] == undefined) { updateheading(sprite) }
         let xd: number = d["xdelta"];
         return xd;
     }
 
     export function ydelta(sprite: Sprite) : number {
         const d = sprite.data();
+        if (d["ydelta"] == undefined) { updateheading(sprite) }
         let yd: number = d["ydelta"];
         return yd;
     }
@@ -137,10 +140,6 @@ namespace sprites {
 }
 
 namespace game {
-
-    function foo() : void {
-        console.log("foo");
-    }
 
     /**
      * Update the position and velocities of sprites
