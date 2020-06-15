@@ -151,8 +151,10 @@ namespace game {
     //% blockAllowMultiple=1
     export function onGameUpdateWithHeading(a: () => void): void {
         if (!a) return;
-        sprites.updateAllHeadings();
-        let new_a: () => { foo(); a(); };
+        const new_a = () => { 
+            sprites.updateAllHeadings()
+            a() 
+        }
         game.eventContext().registerFrameHandler(scene.UPDATE_PRIORITY - 1, new_a);
     }
 }
