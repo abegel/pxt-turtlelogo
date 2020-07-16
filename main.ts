@@ -82,11 +82,11 @@ namespace sprites {
     //% group="Heading"
     //% weight=99
     export function updateheading(sprite: Sprite) { 
-        if (sprite.vy() != 0 || sprite.vx() != 0) {
-            let my_heading: number = atan2(0 - sprite.vy(), sprite.vx());
+        if (sprite.vy != 0 || sprite.vx != 0) {
+            let my_heading: number = atan2(0 - sprite.vy, sprite.vx);
             let magnitude: number = speed(sprite);
-            let ydelta: number = (0 - sprite.vy()) / magnitude;
-            let xdelta: number = (sprite.vx() / magnitude);
+            let ydelta: number = (0 - sprite.vy) / magnitude;
+            let xdelta: number = (sprite.vx / magnitude);
             
             const d = sprite.data();
             d["heading"] = my_heading % 360;
@@ -131,7 +131,7 @@ namespace sprites {
     //% group="Heading"
     //% weight=98
     export function speed(sprite: Sprite) : number {
-        let magnitude: number = Math.sqrt((sprite.vx() * sprite.vx()) + (sprite.vy() * sprite.vy()));
+        let magnitude: number = Math.sqrt((sprite.vx * sprite.vx) + (sprite.vy * sprite.vy));
         return magnitude;
     }
 
@@ -198,7 +198,7 @@ namespace scene {
         if (!scene.tileMap) return new tiles.Location(0, 0, scene.tileMap);
         const scale = scene.tileMap.scale;
 
-        return new tiles.Location(sprite.x() >> scale, sprite.y() >> scale, scene.tileMap);
+        return new tiles.Location(sprite.x >> scale, sprite.y >> scale, scene.tileMap);
  
     }
 
@@ -209,8 +209,8 @@ namespace scene {
         if (!scene.tileMap) return true;
         const scale = scene.tileMap.scale;
         
-        const left: number = sprite.left();
-        const right: number = sprite.right() - 1;
+        const left: number = sprite.left;
+        const right: number = sprite.right - 1;
 
         //console.logValue("left", sprite.left());
         //console.logValue("right", sprite.right() - 1);
@@ -220,8 +220,8 @@ namespace scene {
         if ((left >> scale) != (right >> scale)) {
             return false;
         }
-        const top: number = sprite.top();
-        const bottom: number = sprite.bottom() - 1;
+        const top: number = sprite.top;
+        const bottom: number = sprite.bottom - 1;
 
         //console.logValue("top", sprite.top());
         //console.logValue("bottom", sprite.bottom() - 1);
