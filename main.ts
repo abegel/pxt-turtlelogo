@@ -212,6 +212,7 @@ namespace scene {
         const left: number = Math.round(sprite.left);
         const right: number = Math.round(sprite.right - 1);
 
+        /*
         if ((sprite.left >> scale) != (left >> scale) || 
             ((sprite.right-1) >> scale) != (right >> scale)) {
 
@@ -225,13 +226,14 @@ namespace scene {
                 console.logValue("left rounded scaled", left >> scale);
                 console.logValue("right rounded scaled", right >> scale);
             }
-
+        */
         if ((left >> scale) != (right >> scale)) {
             return false;
         }
         const top: number = Math.round(sprite.top);
         const bottom: number = Math.round(sprite.bottom - 1);
 
+        /*
         if ((sprite.top >> scale) != (top >> scale) || 
             ((sprite.bottom-1) >> scale) != (bottom >> scale)) {
 
@@ -245,6 +247,7 @@ namespace scene {
                 console.logValue("top rounded scaled", top >> scale);
                 console.logValue("bottom rounded scaled", bottom >> scale);
         }
+        */
         if ((top >> scale) != (bottom >> scale)) {
             return false;
         }
