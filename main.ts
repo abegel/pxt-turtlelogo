@@ -209,26 +209,42 @@ namespace scene {
         if (!scene.tileMap) return true;
         const scale = scene.tileMap.scale;
         
-        const left: number = sprite.left;
-        const right: number = sprite.right - 1;
+        const left: number = Math.round(sprite.left);
+        const right: number = Math.round(sprite.right - 1);
 
-        //console.logValue("left", sprite.left());
-        //console.logValue("right", sprite.right() - 1);
-        //console.logValue("left scaled", sprite.left() >> scale);
-        //console.logValue("right scaled", (sprite.right() - 1) >> scale);
+        if ((sprite.left >> scale) != (left >> scale) || 
+            ((sprite.right-1) >> scale) != (right >> scale)) {
+
+                console.logValue("left", sprite.left);
+                console.logValue("right", sprite.right - 1);
+                console.logValue("left scaled", sprite.left >> scale);
+                console.logValue("right scaled", (sprite.right - 1) >> scale);
+                
+                console.logValue("left rounded", left);
+                console.logValue("right rounded", right);
+                console.logValue("left rounded scaled", left >> scale);
+                console.logValue("right rounded scaled", right >> scale);
+            }
 
         if ((left >> scale) != (right >> scale)) {
             return false;
         }
-        const top: number = sprite.top;
-        const bottom: number = sprite.bottom - 1;
+        const top: number = Math.round(sprite.top);
+        const bottom: number = Math.round(sprite.bottom - 1);
 
-        //console.logValue("top", sprite.top());
-        //console.logValue("bottom", sprite.bottom() - 1);
+        if ((sprite.top >> scale) != (top >> scale) || 
+            ((sprite.bottom-1) >> scale) != (bottom >> scale)) {
 
-        //console.logValue("top scaled", sprite.top() >> scale);
-        //console.logValue("bottom scaled", (sprite.bottom() - 1) >> scale);
+                console.logValue("top", sprite.top);
+                console.logValue("bottom", sprite.bottom - 1);
+                console.logValue("top scaled", sprite.top >> scale);
+                console.logValue("bottom scaled", (sprite.bottom - 1) >> scale);
 
+                console.logValue("top rounded", top);
+                console.logValue("bottom rounded", bottom);
+                console.logValue("top rounded scaled", top >> scale);
+                console.logValue("bottom rounded scaled", bottom >> scale);
+        }
         if ((top >> scale) != (bottom >> scale)) {
             return false;
         }
