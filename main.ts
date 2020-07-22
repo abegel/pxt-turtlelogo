@@ -209,8 +209,8 @@ namespace scene {
         if (!scene.tileMap) return true;
         const scale = scene.tileMap.scale;
         
-        const left: number = Math.round(sprite.left);
-        const right: number = Math.round(sprite.right - 1);
+        const left: number = Fx.toInt(sprite._hitbox.left);
+        const right: number = Fx.toInt(sprite._hitbox.right) - 1;
 
         /*
         if ((sprite.left >> scale) != (left >> scale) || 
@@ -230,8 +230,8 @@ namespace scene {
         if ((left >> scale) != (right >> scale)) {
             return false;
         }
-        const top: number = Math.round(sprite.top);
-        const bottom: number = Math.round(sprite.bottom - 1);
+        const top: number = Fx.toInt(sprite._hitbox.top);
+        const bottom: number = Fx.toInt(sprite._hitbox.bottom) - 1;
 
         /*
         if ((sprite.top >> scale) != (top >> scale) || 
