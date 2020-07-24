@@ -10,15 +10,58 @@ enum TravelDirection {
     
 }
 
-namespace sprites {
+namespace Math {
+    //% block="is $pred"
+    //% weight=97
+    export function booleanToNumber(pred: boolean) {
+        return (pred) ? 1 : 0
+    }
 
+    //% block="$a mod $b"
+    //% weight=97
+    export function mod(a: number, b: number) {
+        let val: number = a % b;
+        if (val < 0) {
+            val += b;
+        }
+        return val;
+    }
+
+   //% block="tan angle $angle"
+    //% group="Trigonometry"
+    //% weight=99
+    export function tan_degrees(angle: number) : number {
+        let rad: number = angle * Math.PI / 180.0
+        return Math.tan(rad);
+    }
+
+
+    //% block="cos angle $angle"
+    //% group="Trigonometry"
+    //% weight=99
+    export function cos_degrees(angle: number) : number {
+        let rad: number = angle * Math.PI / 180.0
+        return Math.cos(rad);
+    }
+
+    //% block="sin angle $angle"
+    //% group="Trigonometry"
+    //% weight=99
+    export function sin_degrees(angle: number) : number {
+        let rad: number = angle * Math.PI / 180.0
+        return Math.sin(rad);
+    }
+
+    //% block="atan y $y x $x"
+    //% group="Trigonometry"
+    //% weight=98
     /**
      * Returns the arc tangent of a vector (x, y). This is an 8-bit approximation.
      * Return value is a number from 0 - 360 (Logo heading)
      * @param y y component of vector
      * @param x x component of vector
      */
-    function atan2(y: number, x: number): number {
+    export function atan2_degrees(y: number, x: number): number {
         if (y >= 0) {
             //quad14
             if (x == 0) {
@@ -78,12 +121,18 @@ namespace sprites {
         return atanTable.getNumber(NumberFormat.UInt16LE, index << 1);
     }
 
+}
+
+namespace sprites {
+
+ 
+
     //% block="record $sprite=variables_get(mySprite) heading"
     //% group="Heading"
     //% weight=99
     export function updateheading(sprite: Sprite) { 
         if (sprite.vy != 0 || sprite.vx != 0) {
-            let my_heading: number = atan2(0 - sprite.vy, sprite.vx);
+            let my_heading: number = Math.atan2_degrees(0 - sprite.vy, sprite.vx);
             let magnitude: number = speed(sprite);
             let ydelta: number = (0 - sprite.vy) / magnitude;
             let xdelta: number = (sprite.vx / magnitude);
@@ -135,7 +184,7 @@ namespace sprites {
         return magnitude;
     }
 
-    
+
 
 }
 
@@ -158,24 +207,7 @@ namespace game {
     }
 }
 
-namespace Math {
-    //% block="is $pred"
-    //% weight=97
-    export function booleanToNumber(pred: boolean) {
-        return (pred) ? 1 : 0
-    }
 
-    //% block="$a mod $b"
-    //% weight=97
-    export function mod(a: number, b: number) {
-        let val: number = a % b;
-        if (val < 0) {
-            val += b;
-        }
-        return val;
-    }
-
-}
 
 namespace arrays {
 
