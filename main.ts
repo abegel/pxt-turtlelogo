@@ -160,6 +160,40 @@ namespace sprites {
 
     }
 
+    //% block="set gravity on $sprite=variables_get(mySprite) sprite mass $massSprite object mass $massObject x offset $xOffset y offset $yOffset"
+    //% group="Gravity"
+    //% weight=98
+    /**
+     * sets instantaneous acceleration due to gravity on a sprite.
+     * @param sprite - the sprite that will be acted upon
+     * @param massSprite - the mass in kg that the sprite has
+     * @param massObject - the mass of the object that the sprite is being pulled to
+     * @param xOffset - the horizontal distance between the object and the sprite, should be positive if to the right, negative if to the left
+     * @param yOffset - the vertical distance between the object and the sprite, should be positive if above, negative if below
+     */
+    export function setInstant2DGravityAcceleration (sprite: Sprite, 
+      massSprite: number, 
+      massObject: number, 
+      xOffset: number,
+      yOffset: number) {
+
+        xOffset = -xOffset;
+
+        const gravitationalAcceleration = computeGravitationalEffect(massSprite,
+            massObject,
+            xOffset,
+            yOffset);
+
+        const newAcceleration = {
+            ax: gravitationalAcceleration.ax,
+            ay: gravitationalAcceleration.ay
+        }
+
+        sprite.ax = newAcceleration.ax
+        sprite.ay = newAcceleration.ay
+
+    }
+
     /**
      * computes gravity's effect on an object
      */
