@@ -130,7 +130,6 @@ namespace sprites {
     //% weight=98
     /**
      * Applies instantenous velocity due to gravity to a sprite.
-     * Does not return
      * @param sprite - the sprite that will be acted upon
      * @param massSprite - the mass in kg that the sprite has
      * @param massObject - the mass of the object that the sprite is being pulled to
@@ -163,7 +162,6 @@ namespace sprites {
     //% weight=98
     /**
      * Applies instantaneous acceleration due to gravity on a sprite.
-     * Does not return
      * @param sprite - the sprite that will be acted upon
      * @param massSprite - the mass in kg that the sprite has
      * @param massObject - the mass of the object that the sprite is being pulled to
