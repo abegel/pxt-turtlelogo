@@ -125,37 +125,6 @@ namespace Math {
 
 namespace sprites {
 
-    //% block="applyInstant2DGravityVelocity $sprite=variables_get(mySprite) Sprite Mass $massSprite Object Mass $massObject xOffset $xOffset yOffset $yOffset"
-    //% group="Gravity"
-    //% weight=98
-    /**
-     * Applies instantenous velocity due to gravity to a sprite.
-     * @param sprite - the sprite that will be acted upon
-     * @param massSprite - the mass in kg that the sprite has
-     * @param massObject - the mass of the object that the sprite is being pulled to
-     * @param xOffset - the horizontal distance between the object and the sprite, should be positive if to the right, negative if to the left
-     * @param yOffset - the vertical distance between the object and the sprite, should be positive if above, negative if below
-     */
-    export function applyInstant2DGravityVelocity(sprite: Sprite, 
-      massSprite: number, 
-      massObject: number, 
-      xOffset: number,
-      yOffset: number) {
-
-        xOffset = -xOffset;
-
-        const gravitationalAcceleration = computeGravitationalEffect(massSprite,
-            massObject,
-            xOffset,
-            yOffset);
-
-        const newVelocity = {
-            ax: gravitationalAcceleration.ax + sprite.vx,
-            ay: gravitationalAcceleration.ay + sprite.vy
-        }
-
-        sprite.setVelocity(newVelocity.ax, newVelocity.ay)
-    }
 
     //% block="applyInstant2DGravityAcceleration $sprite=variables_get(mySprite) Sprite Mass $massSprite Object Mass $massObject xOffset $xOffset yOffset $yOffset"
     //% group="Gravity"
@@ -217,7 +186,7 @@ namespace sprites {
     }
 
     const gravitationalForce = (massOne: number, massTwo: number, radius: number) => {
-        const gravitationalConstant = 0.00000000006673
+        const gravitationalConstant = 6673
 
         return gravitationalConstant * ((massOne * massTwo) / Math.pow(radius, 2))
     }
