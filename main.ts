@@ -9,7 +9,6 @@ enum TravelDirection {
     Right = 1
     
 }
-
 namespace Math {
     //% block="is $pred"
     //% weight=97
@@ -40,16 +39,16 @@ namespace Math {
     //% group="Trigonometry"
     //% weight=99
     export function cos_degrees(angle: number) : number {
-        let rad: number = angle * Math.PI / 180.0
-        return Math.cos(rad);
+        let rad2: number = angle * Math.PI / 180.0
+        return Math.cos(rad2);
     }
 
     //% block="sin angle $angle"
     //% group="Trigonometry"
     //% weight=99
     export function sin_degrees(angle: number) : number {
-        let rad: number = angle * Math.PI / 180.0
-        return Math.sin(rad);
+        let rad3: number = angle * Math.PI / 180.0
+        return Math.sin(rad3);
     }
 
     //% block="atan y $y x $x"
@@ -73,20 +72,20 @@ namespace Math {
                 return Fx.toFloat(r);
             } else {
                 //quad4  x < 0, y >= 0
-                let r: Fx8 = lookupAtan0to90(y, -x);
-                return 360 - Fx.toFloat(r);
+                let s: Fx8 = lookupAtan0to90(y, -x);
+                return 360 - Fx.toFloat(s);
             }
         } else if (x == 0) {
             // -infinity
             return 180;
         } else if (x > 0) {
             //quad2
-            let r: Fx8 = lookupAtan0to90(-y, x);
-            return Fx.toFloat(r) + 180;
+            let t: Fx8 = lookupAtan0to90(-y, x);
+            return Fx.toFloat(t) + 180;
         } else {
             //quad3
-            let r: Fx8 = lookupAtan0to90(-y, -x);
-            return Fx.toFloat(r) + 180;
+            let u: Fx8 = lookupAtan0to90(-y, -x);
+            return Fx.toFloat(u) + 180;
         }
     }
 
@@ -122,30 +121,53 @@ namespace Math {
     }
 
 }
-
 namespace sprites {
 
+    //% block="$sprite=variables_get(mySprite) mass"
+    //% group="Gravity"
+    //% weight=100
+    export function mass(sprite: Sprite) : number {
+        const d = sprite.data();
+        if (d["mass"] == undefined) { return 1 }
+        let mass: number = d["mass"];
+        return mass;
+    }
 
-    //% block="apply gravity to $sprite=variables_get(mySprite) sprite mass $massSprite object mass $massObject x offset $xOffset y offset $yOffset"
+    //% block="set $sprite=variables_get(mySprite) mass $val"
+    //% group="Gravity"
+    //% weight=100
+    /** 
+     * Set the sprite's mass in kg
+     * @param val new mass; eg: 1 
+     */
+    export function setmass(sprite: Sprite, val: number = 1) {
+        const e = sprite.data();
+        if (val <= 0) {
+           e["mass"] = 1;
+        } else {
+           e["mass"] = val;
+        }
+    }
+
+    //% block="add gravity to acceleration of $sprite=variables_get(mySprite) x offset $xOffset y offset $yOffset object mass $massObject"
     //% group="Gravity"
     //% weight=98
     /**
      * Applies instantaneous acceleration due to gravity on a sprite.
      * @param sprite - the sprite that will be acted upon
-     * @param massSprite - the mass in kg that the sprite has
-     * @param massObject - the mass of the object that the sprite is being pulled to
+     * @param massObject - the mass of the object that the sprite is being pulled to; eg. 100
      * @param xOffset - the horizontal distance between the object and the sprite, should be positive if to the right, negative if to the left
      * @param yOffset - the vertical distance between the object and the sprite, should be positive if above, negative if below
      */
     export function applyInstant2DGravityAcceleration (sprite: Sprite, 
-      massSprite: number, 
-      massObject: number, 
       xOffset: number,
-      yOffset: number) {
+      yOffset: number,
+      massObject: number
+) {
 
         xOffset = -xOffset;
 
-        const gravitationalAcceleration = computeGravitationalEffect(massSprite,
+        const gravitationalAcceleration = computeGravitationalEffect(mass(sprite),
             massObject,
             xOffset,
             yOffset);
@@ -160,37 +182,30 @@ namespace sprites {
 
     }
 
-    //% block="set gravity on $sprite=variables_get(mySprite) sprite mass $massSprite object mass $massObject x offset $xOffset y offset $yOffset"
+    //% block="set acceleration to gravity of $sprite=variables_get(mySprite) x offset $xOffset y offset $yOffset object mass $massObject"
     //% group="Gravity"
     //% weight=98
     /**
      * sets instantaneous acceleration due to gravity on a sprite.
      * @param sprite - the sprite that will be acted upon
-     * @param massSprite - the mass in kg that the sprite has
-     * @param massObject - the mass of the object that the sprite is being pulled to
+     * @param massObject - the mass of the object that the sprite is being pulled to; eg. 100
      * @param xOffset - the horizontal distance between the object and the sprite, should be positive if to the right, negative if to the left
      * @param yOffset - the vertical distance between the object and the sprite, should be positive if above, negative if below
      */
     export function setInstant2DGravityAcceleration (sprite: Sprite, 
-      massSprite: number, 
-      massObject: number, 
       xOffset: number,
-      yOffset: number) {
+      yOffset: number,
+      massObject: number = 100) {
 
         xOffset = -xOffset;
 
-        const gravitationalAcceleration = computeGravitationalEffect(massSprite,
+        const gravitationalAcceleration = computeGravitationalEffect(mass(sprite),
             massObject,
             xOffset,
             yOffset);
 
-        const newAcceleration = {
-            ax: gravitationalAcceleration.ax,
-            ay: gravitationalAcceleration.ay
-        }
-
-        sprite.ax = newAcceleration.ax
-        sprite.ay = newAcceleration.ay
+        sprite.ax = gravitationalAcceleration.ax
+        sprite.ay = gravitationalAcceleration.ay
 
     }
 
@@ -210,12 +225,12 @@ namespace sprites {
         const forceOfGravity = gravitationalForce(massSprite, massObject, spriteDistance);
 
         // first, find the gravitational acceleration that we should have
-        const gravitationalAcceleration = {
+        const gravitationalAcceleration3 = {
             ax: forceOfGravity * xOffset / spriteDistance,
             ay: forceOfGravity * yOffset / spriteDistance
         }
 
-        return gravitationalAcceleration;        
+        return gravitationalAcceleration3;        
       }
 
     const distance = (yOffset: number, xOffset: number) => {
@@ -292,7 +307,6 @@ namespace sprites {
 
 
 }
-
 namespace game {
 
     /**
@@ -311,9 +325,6 @@ namespace game {
         game.eventContext().registerFrameHandler(scene.UPDATE_PRIORITY - 1, new_a);
     }
 }
-
-
-
 namespace arrays {
 
     //% block="choose random element from $list=variables_get(list)"
@@ -325,7 +336,6 @@ namespace arrays {
     }
 
 }
-
 namespace scene {
 
     //% block="$sprite=variables_get(mySprite) tile location"
@@ -424,11 +434,11 @@ namespace scene {
         let round_n = Math.round(n);
                
         let loc: tiles.Location = getTileLocationOfSprite(sprite);
-        const scale = scene.tileMap.scale;
-        let x: number = loc.x >> scale;
-        let y: number = loc.y >> scale;
-        let width: number = scene.tileMap.areaWidth() >> scale;
-        let height: number = scene.tileMap.areaHeight() >> scale;
+        const scale5 = scene.tileMap.scale;
+        let x: number = loc.x >> scale5;
+        let y: number = loc.y >> scale5;
+        let width: number = scene.tileMap.areaWidth() >> scale5;
+        let height: number = scene.tileMap.areaHeight() >> scale5;
 
         //console.log("loc.x = " + loc.x);
         //console.log("loc.y = " + loc.y);
@@ -441,29 +451,29 @@ namespace scene {
         //console.logValue("xdOriginal", xdOriginal);
         //console.logValue("ydOriginal", ydOriginal);
 
-        let xd: number = xdOriginal * round_n;   
-        let yd: number = ydOriginal * round_n;
+        let xd2: number = xdOriginal * round_n;   
+        let yd2: number = ydOriginal * round_n;
 
         //console.logValue("xd", xd);
         //console.logValue("yd", yd);
 
-        let i: number = sprites.heading(sprite);
+        let j: number = sprites.heading(sprite);
         switch(td) {
             case TravelDirection.Ahead:
-                x = x + xd;
-                y = y - yd;
+                x = x + xd2;
+                y = y - yd2;
                 break;
             case TravelDirection.Behind:
-                x = x - xd;
-                y = y + yd;
+                x = x - xd2;
+                y = y + yd2;
                 break;
             case TravelDirection.Right:
-                x = x + yd;
-                y = y + xd;
+                x = x + yd2;
+                y = y + xd2;
                 break;
             case TravelDirection.Left:
-                x = x - yd;
-                y = y - xd;
+                x = x - yd2;
+                y = y - xd2;
                 break;
         } 
 
@@ -514,8 +524,8 @@ namespace scene {
         const scale = scene.tileMap.scale;
         let scaledLoc: tiles.Location = new tiles.Location(loc.x >> scale, loc.y >> scale, scene.tileMap);
         
-        let i: Image = tiles.getTileImage(scaledLoc);
-        return (i == tile);
+        let k: Image = tiles.getTileImage(scaledLoc);
+        return (k == tile);
     }
 
 
