@@ -168,20 +168,17 @@ namespace sprites {
       xOffset: number, 
       yOffset: number) => {
 
-        if (xOffset == 0 && yOffset == 0) {
-            return { ax: 1000, ay: 1000 };
-        }
-
         let spriteDistance: number = distance(yOffset, xOffset);
+
         if (spriteDistance == 0) {
-            spriteDistance = 1;
+            return { ax: 0, ay: 0 };
         }
         const forceOfGravity = gravitationalForce(massSprite, massObject, spriteDistance);
 
         // first, find the gravitational acceleration that we should have
         const gravitationalAcceleration = {
-            ax: forceOfGravity * (xOffset / spriteDistance),
-            ay: forceOfGravity * (yOffset / spriteDistance)
+            ax: forceOfGravity * xOffset / spriteDistance,
+            ay: forceOfGravity * yOffset / spriteDistance
         }
 
         return gravitationalAcceleration;        
@@ -195,7 +192,7 @@ namespace sprites {
     const gravitationalForce = (massOne: number, massTwo: number, radius: number) => {
         const gravitationalConstant = 6673
         if (radius == 0) {
-            return 1000;
+            return 0;
         }
 
         return gravitationalConstant * ((massOne * massTwo) / Math.pow(radius, 2))
