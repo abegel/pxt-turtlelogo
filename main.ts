@@ -125,7 +125,71 @@ namespace Math {
 
 namespace sprites {
 
- 
+
+    //% block="applyInstant2DGravityAcceleration $sprite=variables_get(mySprite) Sprite Mass $massSprite Object Mass $massObject xOffset $xOffset yOffset $yOffset"
+    //% group="Gravity"
+    //% weight=98
+    /**
+     * Applies instantaneous acceleration due to gravity on a sprite.
+     * @param sprite - the sprite that will be acted upon
+     * @param massSprite - the mass in kg that the sprite has
+     * @param massObject - the mass of the object that the sprite is being pulled to
+     * @param xOffset - the horizontal distance between the object and the sprite, should be positive if to the right, negative if to the left
+     * @param yOffset - the vertical distance between the object and the sprite, should be positive if above, negative if below
+     */
+    export function applyInstant2DGravityAcceleration (sprite: Sprite, 
+      massSprite: number, 
+      massObject: number, 
+      xOffset: number,
+      yOffset: number) {
+
+        xOffset = -xOffset;
+
+        const gravitationalAcceleration = computeGravitationalEffect(massSprite,
+            massObject,
+            xOffset,
+            yOffset);
+
+        const newAcceleration = {
+            ax: gravitationalAcceleration.ax + sprite.ax,
+            ay: gravitationalAcceleration.ay + sprite.ay
+        }
+
+        sprite.ax = newAcceleration.ax
+        sprite.ay = newAcceleration.ay
+
+    }
+
+    /**
+     * computes gravity's effect on an object
+     */
+    const computeGravitationalEffect = (massSprite: number, 
+      massObject: number, 
+      xOffset: number, 
+      yOffset: number) => {
+
+        const spriteDistance = distance(yOffset, xOffset);
+        const forceOfGravity = gravitationalForce(massSprite, massObject, spriteDistance);
+
+        // first, find the gravitational acceleration that we should have
+        const gravitationalAcceleration = {
+            ax: forceOfGravity * (xOffset / spriteDistance),
+            ay: forceOfGravity * (yOffset / spriteDistance)
+        }
+
+        return gravitationalAcceleration;        
+      }
+
+    const distance = (yOffset: number, xOffset: number) => {
+        const squaredDistance = xOffset * xOffset + yOffset * yOffset;
+        return Math.sqrt(squaredDistance);
+    }
+
+    const gravitationalForce = (massOne: number, massTwo: number, radius: number) => {
+        const gravitationalConstant = 6673
+
+        return gravitationalConstant * ((massOne * massTwo) / Math.pow(radius, 2))
+    }
 
     //% block="record $sprite=variables_get(mySprite) heading"
     //% group="Heading"
