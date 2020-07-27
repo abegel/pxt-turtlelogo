@@ -126,7 +126,7 @@ namespace Math {
 namespace sprites {
 
 
-    //% block="applyInstant2DGravityAcceleration $sprite=variables_get(mySprite) Sprite Mass $massSprite Object Mass $massObject xOffset $xOffset yOffset $yOffset"
+    //% block="apply gravity to $sprite=variables_get(mySprite) sprite mass $massSprite object mass $massObject x offset $xOffset y offset $yOffset"
     //% group="Gravity"
     //% weight=98
     /**
@@ -168,7 +168,14 @@ namespace sprites {
       xOffset: number, 
       yOffset: number) => {
 
-        const spriteDistance = distance(yOffset, xOffset);
+        if (xOffset == 0 && yOffset == 0) {
+            return { ax: 1000, ay: 1000 };
+        }
+
+        let spriteDistance: number = distance(yOffset, xOffset);
+        if (spriteDistance == 0) {
+            spriteDistance = 1;
+        }
         const forceOfGravity = gravitationalForce(massSprite, massObject, spriteDistance);
 
         // first, find the gravitational acceleration that we should have
@@ -187,6 +194,9 @@ namespace sprites {
 
     const gravitationalForce = (massOne: number, massTwo: number, radius: number) => {
         const gravitationalConstant = 6673
+        if (radius == 0) {
+            return 1000;
+        }
 
         return gravitationalConstant * ((massOne * massTwo) / Math.pow(radius, 2))
     }
