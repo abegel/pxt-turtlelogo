@@ -323,7 +323,7 @@ namespace game {
             sprites.updateAllHeadings()
             a() 
         }
-        game.eventContext().registerFrameHandler(scene.UPDATE_PRIORITY - 1, new_a);
+        game.eventContext().registerFrameHandler(scene.UPDATE_PRIORITY, new_a);
     }
 }
 namespace arrays {
