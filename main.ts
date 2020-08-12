@@ -503,7 +503,7 @@ namespace scene {
     //% group="Tiles"
     export function isTileAWallAt(loc: tiles.Location) {
         const scene = game.currentScene();
-        if (!scene.tileMap) return new tiles.Location(0, 0, scene.tileMap);
+        if (!loc || !scene.tileMap) return false;
         const scale = scene.tileMap.scale;
 
         let pointX: number = (loc.x >> scale);
